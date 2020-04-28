@@ -1,6 +1,8 @@
+from models import *
+from app import db, app
+import sys
 
-
-data=[{
+venues_data=[{
     "city": "San Francisco",
     "state": "CA",
     "venues": [{
@@ -20,4 +22,28 @@ data=[{
       "name": "The Dueling Pianos Bar",
       "num_upcoming_shows": 0,
     }]
-  }]
+}]
+
+def create_venues_data(venues_data):
+    try:
+        error = False
+        for data in venues_data:
+            city = data['city']
+            state = data["state"]
+            for venue in data['venues']:
+                id = venue['id']
+                name = venue['name']
+
+                venue_temp = Venue(id=id, name=name, city=city, state=state)
+                db.session.add(venue_temp)
+                db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+        print(sys.exc_info())
+    
+    finally:
+        db.session.close()
+
+
+create_venues_data(venues_data)

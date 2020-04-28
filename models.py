@@ -1,3 +1,4 @@
+from sqlalchemy import Column, String, Integer, Boolean, DateTime, ARRAY, ForeignKey
 from app import db
 
 class Venue(db.Model):
@@ -13,6 +14,7 @@ class Venue(db.Model):
     facebook_link = db.Column(db.String(120))
     website = db.Column(db.String(120))
     seeking_talent = db.Column(db.Boolean)
+    genres = db.Column(ARRAY(String))
     seeking_description = db.Column(db.String(500))
     shows = db.relationship('Show', backref="venue", lazy=True)
 
