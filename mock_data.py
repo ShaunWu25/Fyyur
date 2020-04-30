@@ -88,6 +88,7 @@ data2={
 "past_shows_count": 0,
 "upcoming_shows_count": 0,
 }
+
 data3={
 "id": 3,
 "name": "Park Square Live Music & Coffee",
@@ -127,7 +128,6 @@ data3={
 }
 
 show_venue_datas = [data1, data2, data3]
-
 def create_show_venue_datas(datas):
     try:
         error = False
@@ -176,7 +176,170 @@ def create_show_venue_datas(datas):
     finally:
         db.session.close()
 
+artist_data = []
+data4={
+    "id": 4,
+    "name": "Guns N Petals",
+    "genres": ["Rock n Roll"],
+    "city": "San Francisco",
+    "state": "CA",
+    "phone": "326-123-5000",
+    "website": "https://www.gunsnpetalsband.com",
+    "facebook_link": "https://www.facebook.com/GunsNPetals",
+    "seeking_venue": True,
+    "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
+    "image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+    "past_shows": [{
+      "venue_id": 1,
+      "venue_name": "The Musical Hop",
+      "venue_image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+      "start_time": "2019-05-21T21:30:00.000Z"
+    }],
+    "upcoming_shows": [],
+    "past_shows_count": 1,
+    "upcoming_shows_count": 0,
+  }
+data5={
+"id": 5,
+"name": "Matt Quevedo",
+"genres": ["Jazz"],
+"city": "New York",
+"state": "NY",
+"phone": "300-400-5000",
+"facebook_link": "https://www.facebook.com/mattquevedo923251523",
+"seeking_venue": False,
+"image_link": "https://images.unsplash.com/photo-1495223153807-b916f75de8c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+"past_shows": [{
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "venue_image_link": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80",
+    "start_time": "2019-06-15T23:00:00.000Z"
+}],
+"upcoming_shows": [],
+"past_shows_count": 1,
+"upcoming_shows_count": 0,
+}
+data6={
+"id": 6,
+"name": "The Wild Sax Band",
+"genres": ["Jazz", "Classical"],
+"city": "San Francisco",
+"state": "CA",
+"phone": "432-325-5432",
+"seeking_venue": False,
+"image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
+"past_shows": [],
+"upcoming_shows": [{
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "venue_image_link": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80",
+    "start_time": "2035-04-01T20:00:00.000Z"
+}, {
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "venue_image_link": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80",
+    "start_time": "2035-04-08T20:00:00.000Z"
+}, {
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "venue_image_link": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80",
+    "start_time": "2035-04-15T20:00:00.000Z"
+}],
+"past_shows_count": 0,
+"upcoming_shows_count": 3,
+}
+artist_data = [data4, data5, data6]
+def create_artist_data(datas):
+    try:
+        error = False
+        for data in datas:
+            id = data['id']
+            name = data['name']
+            genres = data['genres']
+            city = data['city']
+            state = data["state"]
+            phone = data["phone"]
+            seeking_venue = data["seeking_venue"]
+            image_link = data["image_link"]
+            if "website" in data:
+                website = data["website"]
+                print("website existed")
+            else:
+                website = 'NA'
 
+            atist_temp = Artist(id=id, name=name, city=city, state=state, phone=phone, seeking_venue=seeking_venue,
+            image_link=image_link, website = website)
+            db.session.add(atist_temp)
+            db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+        print(sys.exc_info())
+    
+    finally:
+        db.session.close()
+
+show_data=[{
+    "venue_id": 1,
+    "venue_name": "The Musical Hop",
+    "artist_id": 4,
+    "artist_name": "Guns N Petals",
+    "artist_image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+    "start_time": "2019-05-21T21:30:00.000Z"
+  }, {
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "artist_id": 5,
+    "artist_name": "Matt Quevedo",
+    "artist_image_link": "https://images.unsplash.com/photo-1495223153807-b916f75de8c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+    "start_time": "2019-06-15T23:00:00.000Z"
+  }, {
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "artist_id": 6,
+    "artist_name": "The Wild Sax Band",
+    "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
+    "start_time": "2035-04-01T20:00:00.000Z"
+  }, {
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "artist_id": 6,
+    "artist_name": "The Wild Sax Band",
+    "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
+    "start_time": "2035-04-08T20:00:00.000Z"
+  }, {
+    "venue_id": 3,
+    "venue_name": "Park Square Live Music & Coffee",
+    "artist_id": 6,
+    "artist_name": "The Wild Sax Band",
+    "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
+    "start_time": "2035-04-15T20:00:00.000Z"
+  }]
+
+def create_show_data(datas):
+    try:
+        error = False
+        for data in datas:
+            venue_id = data['venue_id']
+            artist_id = data['artist_id']
+            start_time = data['start_time']
+
+            show_temp = Show(venue_id=venue_id, artist_id=artist_id, start_time=start_time)
+            db.session.add(show_temp)
+            db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+        print(sys.exc_info())
+    
+    finally:
+        db.session.close()
 #------------------------------------------------------------------------------------------------------------------------------------
-create_venues_data(venues_data)
-create_show_venue_datas(show_venue_datas)
+
+
+# Default port:
+if __name__ == '__main__':
+    # create_venues_data(venues_data)
+    # create_show_venue_datas(show_venue_datas)
+    # create_artist_data(artist_data)
+    create_show_data(show_data)
